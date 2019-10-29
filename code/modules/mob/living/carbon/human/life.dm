@@ -1520,7 +1520,7 @@
 		return 0
 
 	if(shock_stage == 10)
-		custom_pain("[pick(\"It hurts so much\", \"You really need some painkillers\", \"Dear god, the pain\")]!", 40)
+		custom_pain("[pick("It hurts so much", "You really need some painkillers", "Dear god, the pain")]!", 40)
 
 	if(shock_stage >= 30)
 		if(shock_stage == 30) emote("me",1,"is having trouble keeping their eyes open.")
