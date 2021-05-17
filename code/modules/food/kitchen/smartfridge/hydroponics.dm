@@ -1,5 +1,5 @@
 /obj/machinery/smartfridge/produce
-	name = "\improper Smart Produce Storage"
+	name = "\improper SmartFridge"
 	desc = "For storing all sorts of perishable foods!"
 	icon = 'icons/obj/vending.dmi'
 	icon_state = "fridge_food"
@@ -8,9 +8,6 @@
 
 /obj/machinery/smartfridge/produce/persistent
 	persistent = /datum/persistent/storage/smartfridge/produce
-
-/obj/machinery/smartfridge/produce/persistent_lossy
-	persistent = /datum/persistent/storage/smartfridge/produce/lossy
 
 /obj/machinery/smartfridge/produce/accept_check(var/obj/item/O as obj)
 	if(istype(O,/obj/item/weapon/reagent_containers/food/snacks/grown/) || istype(O,/obj/item/seeds/))

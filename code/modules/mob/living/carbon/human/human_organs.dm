@@ -163,9 +163,8 @@
 						continue
 					drop_from_inventory(r_hand)
 
-			if(!isbelly(loc)) //VOREStation Add
-				var/emote_scream = pick("screams in pain and ", "lets out a sharp cry and ", "cries out and ")
-				custom_emote(VISIBLE_MESSAGE, "[(can_feel_pain()) ? "" : emote_scream ]drops what they were holding in their [E.name]!")
+			var/emote_scream = pick("screams in pain and ", "lets out a sharp cry and ", "cries out and ")
+			custom_emote(VISIBLE_MESSAGE, "[(can_feel_pain()) ? "" : emote_scream ]drops what they were holding in their [E.name]!")
 
 		else if(E.is_malfunctioning())
 			switch(E.body_part)
@@ -178,15 +177,14 @@
 						continue
 					drop_from_inventory(r_hand)
 
-			if(!isbelly(loc)) //VOREStation Add
-				custom_emote(VISIBLE_MESSAGE, "drops what they were holding, their [E.name] malfunctioning!")
+			custom_emote(VISIBLE_MESSAGE, "drops what they were holding, their [E.name] malfunctioning!")
 
-				var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
-				spark_system.set_up(5, 0, src)
-				spark_system.attach(src)
-				spark_system.start()
-				spawn(10)
-					qdel(spark_system)
+			var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
+			spark_system.set_up(5, 0, src)
+			spark_system.attach(src)
+			spark_system.start()
+			spawn(10)
+				qdel(spark_system)
 
 //Handles chem traces
 /mob/living/carbon/human/proc/handle_trace_chems()

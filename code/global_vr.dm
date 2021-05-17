@@ -5,7 +5,6 @@
 	robot_module_types += "Sci-borg"
 	robot_module_types += "Pupdozer"
 	robot_module_types += "Service-Hound"
-	robot_module_types += "BoozeHound"
 	robot_module_types += "KMine"
 	return 1
 

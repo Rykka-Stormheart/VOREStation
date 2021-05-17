@@ -9,9 +9,6 @@
 /obj/machinery/smartfridge/sheets/persistent
 	persistent = /datum/persistent/storage/smartfridge/sheet_storage
 
-/obj/machinery/smartfridge/sheets/persistent_lossy
-	persistent = /datum/persistent/storage/smartfridge/sheet_storage/lossy
-
 /obj/machinery/smartfridge/sheets/accept_check(var/obj/item/O)
 	return istype(O, /obj/item/stack/material)
 
