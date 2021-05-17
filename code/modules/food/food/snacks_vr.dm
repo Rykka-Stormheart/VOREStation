@@ -600,4 +600,15 @@
 	. = ..()
 	bitesize = 3
 
+/obj/item/weapon/reagent_containers/food/snacks/xenomeat/antlion
+	name = "xenomeat"
+	desc = "A large slab of green meat."
+	icon_state = "xenomeat"
+	filling_color = "#43DE18"
+	center_of_mass = list("x"=16, "y"=10)
 
+/obj/item/weapon/reagent_containers/food/snacks/xenomeat/antlion/Initialize()
+	. = ..()
+	reagents.add_reagent("protein", 6)
+	reagents.add_reagent("pacid",6)
+	src.bitesize = 6
