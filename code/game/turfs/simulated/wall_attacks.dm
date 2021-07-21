@@ -1,6 +1,3 @@
-#define ZONE_BLOCKED 2
-#define AIR_BLOCKED 1
-
 //Interactions
 /turf/simulated/wall/proc/toggle_open(var/mob/user)
 
@@ -12,7 +9,7 @@
 	if(density)
 		can_open = WALL_OPENING
 		//flick("[material.icon_base]fwall_opening", src)
-		density = 0
+		density = FALSE
 		blocks_air = ZONE_BLOCKED
 		update_icon()
 		update_air()
@@ -24,7 +21,7 @@
 	else
 		can_open = WALL_OPENING
 		//flick("[material.icon_base]fwall_closing", src)
-		density = 1
+		density = TRUE
 		blocks_air = AIR_BLOCKED
 		update_icon()
 		update_air()
@@ -36,9 +33,6 @@
 
 	can_open = WALL_CAN_OPEN
 	update_icon()
-
-#undef ZONE_BLOCKED
-#undef AIR_BLOCKED
 
 /turf/simulated/wall/proc/update_air()
 	if(!air_master)

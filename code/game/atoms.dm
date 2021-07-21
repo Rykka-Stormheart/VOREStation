@@ -11,7 +11,7 @@
 	var/pass_flags = 0
 	var/throwpass = 0
 	var/germ_level = GERM_LEVEL_AMBIENT // The higher the germ level, the more germ on the atom.
-	var/simulated = 1 //filter for actions - used by lighting overlays
+	var/simulated = TRUE //filter for actions - used by lighting overlays
 	var/atom_say_verb = "says"
 	var/bubble_icon = "normal" ///what icon the atom uses for speechbubbles
 	var/fluorescent // Shows up under a UV light.
@@ -26,9 +26,16 @@
 	///Chemistry.
 
 	// Overlays
-	var/list/our_overlays	//our local copy of (non-priority) overlays without byond magic. Use procs in SSoverlays to manipulate
-	var/list/priority_overlays	//overlays that should remain on top and not normally removed when using cut_overlay functions, like c4.
+	///Our local copy of (non-priority) overlays without byond magic. Use procs in SSoverlays to manipulate
+	var/list/our_overlays	
+	///Overlays that should remain on top and not normally removed when using cut_overlay functions, like c4.
+	var/list/priority_overlays
+	///vis overlays managed by SSvis_overlays to automaticaly turn them like other overlays
+	var/list/managed_vis_overlays
 
+	///Our local copy of filter data so we can add/remove it
+	var/list/filter_data
+	
 	//Detective Work, used for the duplicate data points kept in the scanners
 	var/list/original_atom
 	// Track if we are already had initialize() called to prevent double-initialization.
@@ -76,11 +83,18 @@
 // Must return an Initialize hint. Defined in code/__defines/subsystems.dm
 /atom/proc/Initialize(mapload, ...)
 	if(QDELETED(src))
-		crash_with("GC: -- [type] had initialize() called after qdel() --")
+		stack_trace("GC: -- [type] had initialize() called after qdel() --")
 	if(initialized)
-		crash_with("Warning: [src]([type]) initialized multiple times!")
+		stack_trace("Warning: [src]([type]) initialized multiple times!")
 	initialized = TRUE
 	return INITIALIZE_HINT_NORMAL
+
+/atom/Destroy()
+	if(reagents)
+		QDEL_NULL(reagents)
+	if(light)
+		QDEL_NULL(light)
+	return ..()
 
 // Called after all object's normal initialize() if initialize() returns INITIALIZE_HINT_LATELOAD
 /atom/proc/LateInitialize()
@@ -139,8 +153,7 @@
 	ASSERT(callback)
 	ASSERT(isturf(loc))
 	var/list/turfs = trange(range, src)
-	for(var/t in turfs)
-		var/turf/T = t
+	for(var/turf/T as anything in turfs)
 		GLOB.turf_entered_event.register(T, src, callback)
 
 //Unregister from prox listening in a certain range. You should do this BEFORE you move, but if you
@@ -148,8 +161,7 @@
 /atom/proc/unsense_proximity(var/range = 1, var/callback, var/center)
 	ASSERT(isturf(center) || isturf(loc))
 	var/list/turfs = trange(range, center ? center : src)
-	for(var/t in turfs)
-		var/turf/T = t
+	for(var/turf/T as anything in turfs)
 		GLOB.turf_entered_event.unregister(T, src, callback)
 
 
@@ -440,7 +452,7 @@
 	if(!blood_DNA || !istype(blood_DNA, /list))	//if our list of DNA doesn't exist yet (or isn't a list) initialise it.
 		blood_DNA = list()
 
-	was_bloodied = 1
+	was_bloodied = TRUE
 	if(!blood_color)
 		blood_color = "#A10808"
 	if(istype(M))
@@ -515,11 +527,9 @@
 	if(LAZYLEN(exclude_mobs))
 		seeing_mobs -= exclude_mobs
 
-	for(var/obj in seeing_objs)
-		var/obj/O = obj
+	for(var/obj/O as anything in seeing_objs)
 		O.show_message(message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
-	for(var/mob in seeing_mobs)
-		var/mob/M = mob
+	for(var/mob/M as anything in seeing_mobs)
 		if(M.see_invisible >= invisibility && MOB_CAN_SEE_PLANE(M, plane))
 			M.show_message(message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
 			if(runemessage != -1)
@@ -541,16 +551,13 @@
 	var/list/hearing_objs = hear["objs"]
 
 	if(radio_message)
-		for(var/obj in hearing_objs)
-			var/obj/O = obj
+		for(var/obj/O as anything in hearing_objs)
 			O.hear_talk(src, list(new /datum/multilingual_say_piece(GLOB.all_languages["Noise"], radio_message)), null)
 	else
-		for(var/obj in hearing_objs)
-			var/obj/O = obj
+		for(var/obj/O as anything in hearing_objs)
 			O.show_message(message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
 
-	for(var/mob in hearing_mobs)
-		var/mob/M = mob
+	for(var/mob/M as anything in hearing_mobs)
 		var/msg = message
 		M.show_message(msg, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
 		if(runemessage != -1)
@@ -634,6 +641,42 @@
 		"}
 	var/turf/T = get_turf(src)
 	. += "<br><font size='1'>[ADMIN_COORDJMP(T)]</font>"
+
+/atom/vv_edit_var(var_name, var_value)
+	switch(var_name)
+		if(NAMEOF(src, light_range))
+			if(light_system == STATIC_LIGHT)
+				set_light(l_range = var_value)
+			else
+				set_light_range(var_value)
+			. =  TRUE
+		if(NAMEOF(src, light_power))
+			if(light_system == STATIC_LIGHT)
+				set_light(l_power = var_value)
+			else
+				set_light_power(var_value)
+			. =  TRUE
+		if(NAMEOF(src, light_color))
+			if(light_system == STATIC_LIGHT)
+				set_light(l_color = var_value)
+			else
+				set_light_color(var_value)
+			. =  TRUE
+		if(NAMEOF(src, light_on))
+			set_light_on(var_value)
+			. =  TRUE
+		if(NAMEOF(src, light_flags))
+			set_light_flags(var_value)
+			. =  TRUE
+		if(NAMEOF(src, opacity))
+			set_opacity(var_value)
+			. =  TRUE
+
+	if(!isnull(.))
+		datum_flags |= DF_VAR_EDITED
+		return
+		
+	. = ..()
 
 /atom/proc/atom_say(message)
 	if(!message)

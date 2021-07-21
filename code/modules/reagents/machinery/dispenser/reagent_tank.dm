@@ -4,8 +4,8 @@
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "watertank"
 	layer = TABLE_LAYER
-	density = 1
-	anchored = 0
+	density = TRUE
+	anchored = FALSE
 	pressure_resistance = 2*ONE_ATMOSPHERE
 
 	var/obj/item/hose_connector/input/active/InputSocket
@@ -51,7 +51,7 @@
 	set name = "Set transfer amount"
 	set category = "Object"
 	set src in view(1)
-	var/N = input("Amount per transfer from this:","[src]") as null|anything in possible_transfer_amounts
+	var/N = tgui_input_list(usr, "Amount per transfer from this:","[src]", possible_transfer_amounts)
 	if (N)
 		amount_per_transfer_from_this = N
 
@@ -193,7 +193,7 @@
 			var/icon/test = getFlatIcon(W)
 			test.Shift(NORTH,1)
 			test.Shift(EAST,6)
-			overlays += test
+			add_overlay(test)
 
 	return ..()
 
@@ -247,8 +247,8 @@
 	desc = "Refills pepper spray canisters."
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "peppertank"
-	anchored = 1
-	density = 0
+	anchored = TRUE
+	density = FALSE
 	amount_per_transfer_from_this = 45
 
 /obj/structure/reagent_dispensers/peppertank/Initialize()
@@ -263,7 +263,7 @@
 	icon = 'icons/obj/vending.dmi'
 	icon_state = "water_cooler"
 	possible_transfer_amounts = null
-	anchored = 1
+	anchored = TRUE
 	var/bottle = 0
 	var/cups = 0
 	var/cupholder = 0
@@ -389,12 +389,9 @@
 
 /obj/structure/reagent_dispensers/water_cooler/update_icon()
 	icon_state = "water_cooler"
-	overlays.Cut()
-	var/image/I
+	cut_overlays()
 	if(bottle)
-		I = image(icon, "water_cooler_bottle")
-		overlays += I
-	return
+		add_overlay("water_cooler_bottle")
 
 /obj/structure/reagent_dispensers/beerkeg
 	name = "beer keg"
@@ -419,7 +416,7 @@
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "virusfoodtank"
 	amount_per_transfer_from_this = 10
-	anchored = 1
+	anchored = TRUE
 
 /obj/structure/reagent_dispensers/virusfood/Initialize()
 	. = ..()
@@ -431,7 +428,7 @@
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "acidtank"
 	amount_per_transfer_from_this = 10
-	anchored = 1
+	anchored = TRUE
 
 /obj/structure/reagent_dispensers/acid/Initialize()
 	. = ..()

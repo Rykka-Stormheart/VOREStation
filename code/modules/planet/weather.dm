@@ -23,6 +23,20 @@
 	visuals = new()
 	special_visuals = new()
 
+/datum/weather_holder/proc/apply_to_turf(turf/T)
+	if(visuals in T.vis_contents)
+		warning("Was asked to add weather to [T.x], [T.y], [T.z] despite already having us in it's vis contents")
+		return
+	T.vis_contents += visuals
+	T.vis_contents += special_visuals
+
+/datum/weather_holder/proc/remove_from_turf(turf/T)
+	if(!(visuals in T.vis_contents))
+		warning("Was asked to remove weather from [T.x], [T.y], [T.z] despite it not having us in it's vis contents")
+		return
+	T.vis_contents -= visuals
+	T.vis_contents -= special_visuals
+
 /datum/weather_holder/proc/change_weather(var/new_weather)
 	var/old_light_modifier = null
 	var/datum/weather/old_weather = null
@@ -188,8 +202,7 @@
 		return
 
 	for(var/z_level in 1 to world.maxz)
-		for(var/a in GLOB.players_by_zlevel[z_level])
-			var/mob/M = a
+		for(var/mob/M as anything in GLOB.players_by_zlevel[z_level])
 
 			// Check if the mob left the z-levels we control. If so, make the sounds stop for them.
 			if(!(z_level in holder.our_planet.expected_z_levels))

@@ -79,7 +79,7 @@
 
 /datum/construction/mecha/ripley_chassis/custom_action(step, obj/item/I, mob/user)
 	user.visible_message("[user] has connected [I] to [holder].", "You connect [I] to [holder]")
-	holder.overlays += I.icon_state+"+o"
+	holder.add_overlay(I.icon_state+"+o")
 	qdel(I)
 	return 1
 
@@ -91,7 +91,7 @@
 	const_holder.construct = new /datum/construction/reversible/mecha/ripley(const_holder)
 	const_holder.icon = 'icons/mecha/mech_construction.dmi'
 	const_holder.icon_state = "ripley0"
-	const_holder.density = 1
+	const_holder.density = TRUE
 	const_holder.overlays.len = 0
 	spawn()
 		qdel(src)
@@ -291,7 +291,7 @@
 
 /datum/construction/mecha/gygax_chassis/custom_action(step, obj/item/I, mob/user)
 	user.visible_message("[user] has connected [I] to [holder].", "You connect [I] to [holder]")
-	holder.overlays += I.icon_state+"+o"
+	holder.add_overlay(I.icon_state+"+o")
 	qdel(I)
 	return 1
 
@@ -303,7 +303,7 @@
 	const_holder.construct = new /datum/construction/reversible/mecha/gygax(const_holder)
 	const_holder.icon = 'icons/mecha/mech_construction.dmi'
 	const_holder.icon_state = "gygax0"
-	const_holder.density = 1
+	const_holder.density = TRUE
 	spawn()
 		qdel(src)
 	return
@@ -575,7 +575,7 @@
 
 /datum/construction/mecha/serenity_chassis/custom_action(step, obj/item/I, mob/user)
 	user.visible_message("[user] has connected [I] to [holder].", "You connect [I] to [holder]")
-	holder.overlays += I.icon_state+"+o"
+	holder.add_overlay(I.icon_state+"+o")
 	qdel(I)
 	return 1
 
@@ -587,7 +587,7 @@
 	const_holder.construct = new /datum/construction/reversible/mecha/serenity(const_holder)
 	const_holder.icon = 'icons/mecha/mech_construction.dmi'
 	const_holder.icon_state = "gygax0"
-	const_holder.density = 1
+	const_holder.density = TRUE
 	spawn()
 		qdel(src)
 	return
@@ -860,7 +860,7 @@
 
 /datum/construction/mecha/firefighter_chassis/custom_action(step, obj/item/I, mob/user)
 	user.visible_message("[user] has connected [I] to [holder].", "You connect [I] to [holder]")
-	holder.overlays += I.icon_state+"+o"
+	holder.add_overlay(I.icon_state+"+o")
 	user.drop_item()
 	qdel(I)
 	return 1
@@ -873,7 +873,7 @@
 	const_holder.construct = new /datum/construction/reversible/mecha/firefighter(const_holder)
 	const_holder.icon = 'icons/mecha/mech_construction.dmi'
 	const_holder.icon_state = "fireripley0"
-	const_holder.density = 1
+	const_holder.density = TRUE
 	spawn()
 		qdel(src)
 	return
@@ -1085,7 +1085,7 @@
 
 /datum/construction/mecha/durand_chassis/custom_action(step, obj/item/I, mob/user)
 	user.visible_message("[user] has connected [I] to [holder].", "You connect [I] to [holder]")
-	holder.overlays += I.icon_state+"+o"
+	holder.add_overlay(I.icon_state+"+o")
 	qdel(I)
 	return 1
 
@@ -1097,7 +1097,7 @@
 	const_holder.construct = new /datum/construction/reversible/mecha/durand(const_holder)
 	const_holder.icon = 'icons/mecha/mech_construction.dmi'
 	const_holder.icon_state = "durand0"
-	const_holder.density = 1
+	const_holder.density = TRUE
 	spawn()
 		qdel(src)
 	return
@@ -1369,7 +1369,7 @@
 
 /datum/construction/mecha/odysseus_chassis/custom_action(step, obj/item/I, mob/user)
 	user.visible_message("[user] has connected [I] to [holder].", "You connect [I] to [holder]")
-	holder.overlays += I.icon_state+"+o"
+	holder.add_overlay(I.icon_state+"+o")
 	qdel(I)
 	return 1
 
@@ -1381,7 +1381,7 @@
 	const_holder.construct = new /datum/construction/reversible/mecha/odysseus(const_holder)
 	const_holder.icon = 'icons/mecha/mech_construction.dmi'
 	const_holder.icon_state = "odysseus0"
-	const_holder.density = 1
+	const_holder.density = TRUE
 	spawn()
 		qdel(src)
 	return
@@ -1582,7 +1582,7 @@
 
 /datum/construction/mecha/phazon_chassis/custom_action(step, obj/item/I, mob/user)
 	user.visible_message("[user] has connected [I] to [holder].", "You connect [I] to [holder]")
-	holder.overlays += I.icon_state+"+o"
+	holder.add_overlay(I.icon_state+"+o")
 	qdel(I)
 	return 1
 
@@ -1594,7 +1594,7 @@
 	const_holder.construct = new /datum/construction/reversible/mecha/phazon(const_holder)
 	const_holder.icon = 'icons/mecha/mech_construction.dmi'
 	const_holder.icon_state = "phazon0"
-	const_holder.density = 1
+	const_holder.density = TRUE
 	spawn()
 		qdel(src)
 	return
@@ -1864,7 +1864,7 @@
 
 /datum/construction/mecha/janus_chassis/custom_action(step, obj/item/I, mob/user)
 	user.visible_message("[user] has connected [I] to [holder].", "You connect [I] to [holder]")
-	holder.overlays += I.icon_state+"+o"
+	holder.add_overlay(I.icon_state+"+o")
 	qdel(I)
 	return 1
 
@@ -1876,7 +1876,7 @@
 	const_holder.construct = new /datum/construction/reversible/mecha/janus(const_holder)
 	const_holder.icon = 'icons/mecha/mech_construction.dmi'
 	const_holder.icon_state = "janus0"
-	const_holder.density = 1
+	const_holder.density = TRUE
 	spawn()
 		qdel(src)
 	return

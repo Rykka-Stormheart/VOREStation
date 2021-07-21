@@ -57,7 +57,7 @@
 
 /mob/living/simple_mob/animal/giant_spider/nurse/inject_poison(mob/living/L, target_zone)
 	..() // Inject the stoxin here.
-	if(ishuman(L) && prob(egg_inject_chance))
+	if(ishuman(L) && prob(egg_inject_chance) && can_lay_eggs)			//VOREStation Edit
 		var/mob/living/carbon/human/H = L
 		var/obj/item/organ/external/O = H.get_organ(target_zone)
 		if(O)
@@ -147,7 +147,7 @@
 /mob/living/simple_mob/animal/giant_spider/nurse/handle_special()
 	set waitfor = FALSE
 	if(get_AI_stance() == STANCE_IDLE && !is_AI_busy() && isturf(loc))
-		if(fed)
+		if(fed && can_lay_eggs)			//VOREStation Edit
 			lay_eggs(loc)
 		else
 			web_tile(loc)
@@ -240,8 +240,7 @@
 
 	var/static/alternative_targets = typecacheof(list(/obj/item, /obj/structure))
 
-	for(var/AT in typecache_filter_list(range(vision_range, holder), alternative_targets))
-		var/obj/O = AT
+	for(var/obj/O as anything in typecache_filter_list(range(vision_range, holder), alternative_targets))
 		if(can_see(holder, O, vision_range) && !O.anchored)
 			. += O
 

@@ -5,7 +5,7 @@
 	item_state = "analyzer"
 	w_class = ITEMSIZE_SMALL
 
-	matter = list(DEFAULT_WALL_MATERIAL = 60,"glass" = 30)
+	matter = list(MAT_STEEL = 60,MAT_GLASS = 30)
 
 	var/emagged = 0.0
 	var/recording = 0.0
@@ -361,7 +361,7 @@
 	icon_state = "tape_white"
 	item_state = "analyzer"
 	w_class = ITEMSIZE_TINY
-	matter = list(DEFAULT_WALL_MATERIAL=20, "glass"=5)
+	matter = list(MAT_STEEL=20, MAT_GLASS=5)
 	force = 1
 	throwforce = 0
 	var/max_capacity = 1800
@@ -372,9 +372,9 @@
 
 
 /obj/item/device/tape/update_icon()
-	overlays.Cut()
+	cut_overlays()
 	if(ruined)
-		overlays += "ribbonoverlay"
+		add_overlay("ribbonoverlay")
 
 
 /obj/item/device/tape/fire_act()

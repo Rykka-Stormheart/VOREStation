@@ -199,7 +199,7 @@
 	if(prob(50))
 		starts_with += /obj/item/weapon/storage/backpack/dufflebag/sec
 	if(prob(30))
-		starts_with += /obj/item/weapon/contraband/poster/nanotrasen
+		starts_with += /obj/item/poster/nanotrasen
 	return ..()
 
 /obj/structure/closet/secure_closet/security/cargo/Initialize()
@@ -260,7 +260,7 @@ GLOBAL_LIST_BOILERPLATE(all_brig_closets, /obj/structure/closet/secure_closet/br
 	name = "brig locker"
 	req_access = list(access_brig)
 	closet_appearance = /decl/closet_appearance/secure_closet/brig
-	anchored = 1
+	anchored = TRUE
 	var/id = null
 
 	starts_with = list(
@@ -270,14 +270,14 @@ GLOBAL_LIST_BOILERPLATE(all_brig_closets, /obj/structure/closet/secure_closet/br
 /obj/structure/closet/secure_closet/posters
 	name = "morale storage"
 	req_access = list(access_security)
-	anchored = 1
+	anchored = TRUE
 
 	starts_with = list(
-		/obj/item/weapon/contraband/poster/nanotrasen,
-		/obj/item/weapon/contraband/poster/nanotrasen,
-		/obj/item/weapon/contraband/poster/nanotrasen,
-		/obj/item/weapon/contraband/poster/nanotrasen,
-		/obj/item/weapon/contraband/poster/nanotrasen)
+		/obj/item/poster/nanotrasen,
+		/obj/item/poster/nanotrasen,
+		/obj/item/poster/nanotrasen,
+		/obj/item/poster/nanotrasen,
+		/obj/item/poster/nanotrasen)
 
 /obj/structure/closet/secure_closet/courtroom
 	name = "courtroom locker"
@@ -297,7 +297,7 @@ GLOBAL_LIST_BOILERPLATE(all_brig_closets, /obj/structure/closet/secure_closet/br
 	name = "wall locker"
 	req_access = list(access_security)
 	closet_appearance = /decl/closet_appearance/wall
-	density = 1
+	density = TRUE
 
 	//too small to put a man in
 	large = 0

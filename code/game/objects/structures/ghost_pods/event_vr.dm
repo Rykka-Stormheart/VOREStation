@@ -40,7 +40,8 @@
 								  "Webslinger Giant Spider" = /mob/living/simple_mob/animal/giant_spider/webslinger,
 								  "Frost Giant Spider" = /mob/living/simple_mob/animal/giant_spider/frost,
 								  "Nurse Giant Spider" = /mob/living/simple_mob/animal/giant_spider/nurse/eggless,
-								  "Giant Spider Queen" = /mob/living/simple_mob/animal/giant_spider/nurse/queen/eggless
+								  "Giant Spider Queen" = /mob/living/simple_mob/animal/giant_spider/nurse/queen/eggless,
+								  "Weretiger" = /mob/living/simple_mob/vore/weretiger
 								  )
 
 /obj/structure/ghost_pod/ghost_activated/maintpred/create_occupant(var/mob/M)
@@ -50,13 +51,13 @@
 	var/finalized = "No"
 
 	while(finalized == "No" && M.client)
-		choice = input(M,"What type of predator do you want to play as?") as null|anything in possible_mobs
+		choice = tgui_input_list(M, "What type of predator do you want to play as?", "Maintpred Choice", possible_mobs)
 		if(!choice)
 			randomize = TRUE
 			break
 
 		if(choice)
-			finalized = alert(M, "Are you sure you want to play as [choice]?","Confirmation","No","Yes")
+			finalized = tgui_alert(M, "Are you sure you want to play as [choice]?","Confirmation",list("No","Yes"))
 
 	if(randomize)
 		choice = pick(possible_mobs)

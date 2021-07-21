@@ -1,8 +1,8 @@
 /obj/structure/sign
 	icon = 'icons/obj/decals.dmi'
-	anchored = 1
+	anchored = TRUE
 	opacity = 0
-	density = 0
+	density = FALSE
 	plane = OBJ_PLANE //VOREStation Edit
 	layer = ABOVE_JUNK_LAYER //VOREStation Edit
 	w_class = ITEMSIZE_NORMAL
@@ -44,7 +44,7 @@
 
 /obj/item/sign/attackby(obj/item/tool as obj, mob/user as mob)	//construction
 	if(tool.is_screwdriver() && isturf(user.loc))
-		var/direction = input("In which direction?", "Select direction.") in list("North", "East", "South", "West", "Cancel")
+		var/direction = tgui_input_list(usr, "In which direction?", "Select direction.", list("North", "East", "South", "West", "Cancel"))
 		if(direction == "Cancel") return
 		var/obj/structure/sign/S = new(user.loc)
 		switch(direction)

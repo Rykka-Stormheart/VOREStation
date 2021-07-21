@@ -253,6 +253,9 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
+/obj/structure/sign/painting/public{
+	pixel_x = -30
+	},
 /turf/simulated/floor/wood,
 /area/talon_v2/crew_quarters/meditation)
 "az" = (
@@ -1138,6 +1141,7 @@
 /area/talon_v2/anomaly_storage)
 "cZ" = (
 /obj/structure/table/woodentable,
+/obj/item/device/paicard,
 /turf/simulated/floor/wood,
 /area/talon_v2/crew_quarters/meditation)
 "da" = (
@@ -1498,6 +1502,7 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
+/obj/item/device/paicard,
 /turf/simulated/floor/tiled/techfloor,
 /area/talon_v2/workroom)
 "dV" = (
@@ -1847,6 +1852,15 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/structure/dogbed,
+/mob/living/simple_mob/animal/passive/dog/bullterrier{
+	desc = "That's Rupert. He looks pretty important. He looks at you with an unwavering gaze of strength and power. You feel like it would be a mistake to challenge his authority.";
+	devourable = 0;
+	digestable = 0;
+	health = 200;
+	maxHealth = 200;
+	name = "Rupert"
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/talon_v2/bridge)
 "eV" = (
@@ -1894,7 +1908,14 @@
 /area/talon_v2/engineering/star_store)
 "fd" = (
 /obj/structure/table/rack/shelf/steel,
-/obj/item/clothing/shoes/magboots,
+/obj/item/clothing/head/beret/talon,
+/obj/item/clothing/head/beret/talon,
+/obj/item/clothing/head/beret/talon,
+/obj/item/clothing/head/beret/talon,
+/obj/item/clothing/suit/storage/hooded/wintercoat/talon,
+/obj/item/clothing/suit/storage/hooded/wintercoat/talon,
+/obj/item/clothing/suit/storage/hooded/wintercoat/talon,
+/obj/item/clothing/suit/storage/hooded/wintercoat/talon,
 /turf/simulated/floor/tiled/techfloor,
 /area/talon_v2/secure_storage)
 "ff" = (
@@ -2083,6 +2104,9 @@
 /area/talon_v2/crew_quarters/cap_room)
 "fC" = (
 /obj/structure/reagent_dispensers/water_cooler/full,
+/obj/structure/sign/painting/public{
+	pixel_y = 30
+	},
 /turf/simulated/floor/wood,
 /area/talon_v2/crew_quarters/bar)
 "fF" = (
@@ -2179,6 +2203,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
+/obj/structure/sign/painting/public{
+	pixel_x = 30
+	},
 /turf/simulated/floor/carpet/blucarpet,
 /area/talon_v2/crew_quarters/cap_room)
 "gc" = (
@@ -2233,10 +2260,6 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/talon_v2/armory)
 "gj" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe-c"
-	},
 /obj/machinery/power/sensor{
 	name = "Talon Power Generation";
 	name_tag = "TLN-PWR-GEN"
@@ -4724,6 +4747,9 @@
 /area/talon_v2/central_hallway)
 "po" = (
 /obj/machinery/fitness/punching_bag,
+/obj/structure/sign/painting/public{
+	pixel_x = 30
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/talon_v2/workroom)
 "pp" = (
@@ -5937,6 +5963,15 @@
 /obj/structure/lattice,
 /turf/space,
 /area/space)
+"tn" = (
+/obj/structure/table/rack/shelf/steel,
+/obj/machinery/recharger/wallcharger{
+	pixel_x = 5;
+	pixel_y = 24
+	},
+/obj/item/weapon/storage/backpack/dufflebag/talon,
+/turf/simulated/floor/tiled/techfloor,
+/area/talon_v2/armory)
 "to" = (
 /obj/machinery/light{
 	dir = 4
@@ -8192,7 +8227,7 @@
 	dir = 1
 	},
 /turf/simulated/floor/reinforced/airless,
-/area/talon_v2/crew_quarters/cap_room)
+/area/talon_v2/bridge)
 "Bi" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
@@ -8552,6 +8587,9 @@
 	},
 /turf/simulated/floor/plating,
 /area/talon_v2/engineering)
+"Ct" = (
+/turf/simulated/floor/plating,
+/area/talon_v2/crew_quarters/bar)
 "Cw" = (
 /obj/structure/bed/chair/bay/chair{
 	dir = 1
@@ -8909,6 +8947,9 @@
 /area/talon_v2/maintenance/wing_starboard)
 "DK" = (
 /obj/machinery/vending/nifsoft_shop,
+/obj/structure/sign/painting/public{
+	pixel_y = 30
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/talon_v2/central_hallway/fore)
 "DM" = (
@@ -9438,6 +9479,12 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /turf/simulated/floor/plating,
 /area/talon_v2/engineering/port_store)
+"FH" = (
+/obj/structure/sign/painting/public{
+	pixel_x = -30
+	},
+/turf/simulated/floor/tiled/techfloor,
+/area/talon_v2/central_hallway/fore)
 "FJ" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -10366,11 +10413,13 @@
 /turf/simulated/floor/plating,
 /area/talon_v2/maintenance/fore_port)
 "Ip" = (
-/obj/item/weapon/stool/baystool/padded,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 6
 	},
 /obj/effect/floor_decal/corner/black/diagonal,
+/obj/item/weapon/stool/baystool/padded{
+	dir = 4
+	},
 /turf/simulated/floor/tiled/white,
 /area/talon_v2/crew_quarters/bar)
 "Iq" = (
@@ -10567,6 +10616,13 @@
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/talon_v2/central_hallway/fore)
+"IX" = (
+/obj/structure/table/rack/shelf/steel,
+/obj/item/clothing/shoes/magboots,
+/obj/item/clothing/shoes/magboots,
+/obj/item/clothing/shoes/magboots,
+/turf/simulated/floor/tiled/techfloor,
+/area/talon_v2/secure_storage)
 "IY" = (
 /obj/structure/cable/green{
 	d1 = 1;
@@ -10582,7 +10638,9 @@
 /obj/effect/floor_decal/industrial/warning/corner{
 	dir = 1
 	},
-/obj/machinery/suspension_gen,
+/obj/machinery/suspension_gen{
+	req_access = list(301)
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/talon_v2/anomaly_storage)
 "Jf" = (
@@ -10849,7 +10907,7 @@
 	dir = 4
 	},
 /turf/simulated/floor/reinforced/airless,
-/area/talon_v2/crew_quarters/cap_room)
+/area/talon_v2/bridge)
 "JQ" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 10
@@ -12046,12 +12104,14 @@
 /turf/simulated/floor/plating,
 /area/talon_v2/engineering/atmospherics)
 "Oq" = (
-/obj/item/weapon/stool/baystool/padded,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/effect/floor_decal/corner/black/diagonal,
+/obj/item/weapon/stool/baystool/padded{
+	dir = 4
+	},
 /turf/simulated/floor/tiled/white,
 /area/talon_v2/crew_quarters/bar)
 "Ot" = (
@@ -13661,8 +13721,13 @@
 /turf/simulated/wall/rshull,
 /area/talon_v2/maintenance/wing_port)
 "TT" = (
-/turf/simulated/wall/rshull,
-/area/space)
+/mob/living/simple_mob/animal/passive/dog/corgi/puppy{
+	desc = "That's Hendrickson, warden of the Talon's brig. No schemes can escape the watchful gleam of this corgi's deep, dark eyes.";
+	name = "Hendrickson"
+	},
+/obj/structure/dogbed,
+/turf/simulated/floor/tiled/techfloor,
+/area/talon_v2/brig)
 "TW" = (
 /obj/structure/cable/green{
 	d1 = 1;
@@ -14130,9 +14195,11 @@
 /turf/simulated/floor/tiled/white,
 /area/talon_v2/medical)
 "VF" = (
-/obj/item/weapon/stool/baystool/padded,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/effect/floor_decal/corner/black/diagonal,
+/obj/item/weapon/stool/baystool/padded{
+	dir = 4
+	},
 /turf/simulated/floor/tiled/white,
 /area/talon_v2/crew_quarters/bar)
 "VH" = (
@@ -14442,6 +14509,17 @@
 "WJ" = (
 /turf/simulated/wall/shull,
 /area/talon_v2/crew_quarters/eng_room)
+"WK" = (
+/obj/structure/table/woodentable,
+/obj/item/clothing/accessory/talon{
+	pixel_x = 4;
+	pixel_y = 7
+	},
+/obj/item/clothing/head/caphat/talon{
+	pixel_x = -5
+	},
+/turf/simulated/floor/wood,
+/area/talon_v2/crew_quarters/cap_room)
 "WM" = (
 /obj/machinery/atmospherics/unary/engine/bigger{
 	dir = 1
@@ -14940,6 +15018,16 @@
 /obj/structure/catwalk,
 /turf/simulated/floor/plating,
 /area/talon_v2/engineering/atmospherics)
+"YA" = (
+/obj/structure/bed/chair/bay/comfy/brown{
+	dir = 1
+	},
+/obj/structure/panic_button{
+	pixel_x = 32;
+	pixel_y = 32
+	},
+/turf/simulated/floor/tiled/techmaint,
+/area/talon_v2/bridge)
 "YB" = (
 /obj/effect/map_helper/airlock/sensor/chamber_sensor,
 /obj/machinery/atmospherics/pipe/manifold/hidden/aux{
@@ -23041,7 +23129,7 @@ Dd
 ZF
 KC
 Oj
-Pm
+tn
 nK
 gg
 SX
@@ -23178,7 +23266,7 @@ AR
 XG
 zv
 XG
-ln
+IX
 Dd
 lW
 KC
@@ -23593,7 +23681,7 @@ hS
 MT
 db
 ZW
-Kj
+TT
 Xm
 aN
 qm
@@ -24146,7 +24234,7 @@ NV
 oC
 oC
 NV
-gm
+WK
 gm
 Nq
 Ht
@@ -25139,7 +25227,7 @@ LB
 tb
 QC
 nB
-tb
+FH
 tb
 nW
 tc
@@ -25554,7 +25642,7 @@ RF
 eL
 xu
 lZ
-wO
+YA
 wm
 Fv
 qU
@@ -26125,11 +26213,11 @@ aa
 aa
 aa
 mI
-TT
+JO
 JO
 qc
 qI
-oh
+Ct
 DU
 Hl
 Hl

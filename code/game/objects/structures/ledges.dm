@@ -2,10 +2,10 @@
 	name = "rock ledge"
 	desc = "An easily scaleable rocky ledge."
 	icon = 'icons/obj/ledges.dmi'
-	density = 1
+	density = TRUE
 	throwpass = 1
-	climbable = 1
-	anchored = 1
+	climbable = TRUE
+	anchored = TRUE
 	var/solidledge = 1
 	flags = ON_BORDER
 	layer = STAIRS_LAYER
@@ -17,23 +17,23 @@
 	name = "rock ledge"
 	desc = "An easily scaleable rocky ledge."
 	icon = 'icons/obj/ledges.dmi'
-	density = 1
+	density = TRUE
 	throwpass = 1
-	climbable = 1
-	anchored = 1
+	climbable = TRUE
+	anchored = TRUE
 	layer = STAIRS_LAYER
 
 /obj/structure/ledge/ledge_nub
 	desc = "Part of a rocky ledge."
 	icon_state = "ledge-nub"
-	density = 0
+	density = FALSE
 	solidledge = 0
 
 /obj/structure/ledge/ledge_stairs
 	name = "rock stairs"
 	desc = "A colorful set of rocky stairs"
 	icon_state = "ledge-stairs"
-	density = 0
+	density = FALSE
 	solidledge = 0
 
 /obj/structure/ledge/CanPass(atom/movable/mover, turf/target)
@@ -55,14 +55,14 @@
 		return
 
 	usr.visible_message("<span class='warning'>[user] starts climbing onto \the [src]!</span>")
-	climbers |= user
+	LAZYDISTINCTADD(climbers, user)
 
 	if(!do_after(user,(issmall(user) ? 20 : 34)))
-		climbers -= user
+		LAZYREMOVE(climbers, user)
 		return
 
 	if(!can_climb(user, post_climb_check=1))
-		climbers -= user
+		LAZYREMOVE(climbers, user)
 		return
 
 	if(get_turf(user) == get_turf(src))
@@ -71,7 +71,7 @@
 		usr.forceMove(get_turf(src))
 
 	usr.visible_message("<span class='warning'>[user] climbed over \the [src]!</span>")
-	climbers -= user
+	LAZYREMOVE(climbers, user)
 
 /obj/structure/ledge/can_climb(var/mob/living/user, post_climb_check=0)
 	if(!..())

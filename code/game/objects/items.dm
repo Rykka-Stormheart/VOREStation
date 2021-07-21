@@ -2,6 +2,7 @@
 	name = "item"
 	icon = 'icons/obj/items.dmi'
 	w_class = ITEMSIZE_NORMAL
+	blocks_emissive = EMISSIVE_BLOCK_GENERIC
 
 	var/image/blood_overlay = null //this saves our blood splatter overlay, which will be processed not to go over the edges of the sprite
 	var/randpixel = 6
@@ -20,7 +21,7 @@
 //	causeerrorheresoifixthis
 	var/obj/item/master = null
 	var/list/origin_tech = null	//Used by R&D to determine what research bonuses it grants.
-	var/list/attack_verb = list() //Used in attackby() to say how something was attacked "[x] has been [z.attack_verb] by [y] with [z]"
+	var/list/attack_verb //Used in attackby() to say how something was attacked "[x] has been [z.attack_verb] by [y] with [z]"
 	var/force = 0
 
 	var/heat_protection = 0 //flags which determine which body parts are protected from heat. Use the HEAD, UPPER_TORSO, LOWER_TORSO, etc. flags. See setup.dm
@@ -48,9 +49,9 @@
 	var/permeability_coefficient = 1 // for chemicals/diseases
 	var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	var/slowdown = 0 // How much clothing is slowing you down. Negative values speeds you up
-	var/canremove = 1 //Mostly for Ninja code at this point but basically will not allow the item to be removed if set to 0. /N
-	var/list/armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
-	var/list/armorsoak = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	var/canremove = TRUE //Mostly for Ninja code at this point but basically will not allow the item to be removed if set to 0. /N
+	var/list/armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0)
+	var/list/armorsoak = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0)
 	var/list/allowed = null //suit storage stuff.
 	var/obj/item/device/uplink/hidden/hidden_uplink = null // All items can have an uplink hidden inside, just remember to add the triggers.
 	var/zoomdevicename = null //name used for message when binoculars/scope is used
@@ -62,12 +63,12 @@
 
 	//** These specify item/icon overrides for _slots_
 
-	var/list/item_state_slots = list() //overrides the default item_state for particular slots.
+	var/list/item_state_slots //overrides the default item_state for particular slots.
 
 	// Used to specify the icon file to be used when the item is worn. If not set the default icon for that slot will be used.
 	// If icon_override or sprite_sheets are set they will take precendence over this, assuming they apply to the slot in question.
 	// Only slot_l_hand/slot_r_hand are implemented at the moment. Others to be implemented as needed.
-	var/list/item_icons = list()
+	var/list/item_icons
 
 	//** These specify item/icon overrides for _species_
 
@@ -78,11 +79,11 @@
 		)
 	If index term exists and icon_override is not set, this sprite sheet will be used.
 	*/
-	var/list/sprite_sheets = list()
+	var/list/sprite_sheets
 
 	// Species-specific sprite sheets for inventory sprites
 	// Works similarly to worn sprite_sheets, except the alternate sprites are used when the clothing/refit_for_species() proc is called.
-	var/list/sprite_sheets_obj = list()
+	var/list/sprite_sheets_obj
 
 	var/toolspeed = 1.0 // This is a multipler on how 'fast' a tool works.  e.g. setting this to 0.5 will make the tool work twice as fast.
 	var/attackspeed = DEFAULT_ATTACK_COOLDOWN // How long click delay will be when using this, in 1/10ths of a second. Checked in the user's get_attack_speed().
@@ -240,11 +241,12 @@
 			return
 
 	var/old_loc = src.loc
-	src.pickup(user)
 	if (istype(src.loc, /obj/item/weapon/storage))
 		var/obj/item/weapon/storage/S = src.loc
-		S.remove_from_storage(src)
-
+		if(!S.remove_from_storage(src))
+			return
+	
+	src.pickup(user)
 	src.throwing = 0
 	if (src.loc == user)
 		if(!user.unEquip(src))
@@ -252,6 +254,7 @@
 	else
 		if(isliving(src.loc))
 			return
+			
 	if(user.put_in_active_hand(src))
 		if(isturf(old_loc))
 			var/obj/effect/temporary_effect/item_pickup_ghost/ghost = new(old_loc)
@@ -269,6 +272,7 @@
 		R.hud_used.update_robot_modules_display()
 
 /obj/item/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	. = ..()
 	if(istype(W, /obj/item/weapon/storage))
 		var/obj/item/weapon/storage/S = W
 		if(S.use_to_pickup)
@@ -632,7 +636,7 @@ var/list/global/slot_flags_enumeration = list(
 
 	//Make the blood_overlay have the proper color then apply it.
 	blood_overlay.color = blood_color
-	overlays += blood_overlay
+	add_overlay(blood_overlay)
 
 	//if this blood isn't already in the list, add it
 	if(istype(M))
@@ -824,6 +828,9 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 	if(!inhands)
 		apply_blood(standing)			//Some items show blood when bloodied
 		apply_accessories(standing)		//Some items sport accessories like webbing
+	
+	//Apply overlays to our...overlay
+	apply_overlays(standing)
 
 	//Return our icon
 	return standing
@@ -836,9 +843,9 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 		return icon_override
 
 	//2: species-specific sprite sheets (skipped for inhands)
-	if(LAZYLEN(sprite_sheets))
+	if(LAZYLEN(sprite_sheets) && !inhands)
 		var/sheet = sprite_sheets[body_type]
-		if(sheet && !inhands)
+		if(sheet)
 			return sheet
 
 	//3: slot-specific sprite sheets
@@ -905,6 +912,15 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 /obj/item/proc/apply_accessories(var/image/standing)
 	return standing
 
+/obj/item/proc/apply_overlays(var/image/standing)
+	if(!blocks_emissive)
+		return standing
+
+	var/mutable_appearance/blocker_overlay = mutable_appearance(standing.icon, standing.icon_state, plane = PLANE_EMISSIVE, appearance_flags = KEEP_APART)
+	blocker_overlay.color = GLOB.em_block_color
+	standing.add_overlay(blocker_overlay)
+	return standing
+
 /obj/item/MouseEntered(location,control,params)
 	. = ..()
 	if(usr.is_preference_enabled(/datum/client_preference/inv_tooltips) && ((src in usr) || isstorage(loc))) // If in inventory or in storage we're looking at
@@ -927,3 +943,8 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 // Like the above, but used for RPED sorting of parts.
 /obj/item/proc/rped_rating()
 	return get_rating()
+
+/// How are you described if at all when in pockets (or other 'usually not visible' places)
+/obj/item/proc/pocket_description(mob/haver, mob/examiner)
+	return null // most things are hidden
+	

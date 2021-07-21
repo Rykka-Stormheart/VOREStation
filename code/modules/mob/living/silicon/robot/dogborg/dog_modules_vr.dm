@@ -269,7 +269,7 @@
 			playsound(src, 'sound/weapons/Egloves.ogg', 50, 1, -1)
 			R.cell.charge -= 666
 		else
-			user.visible_message("<span class='notice'>\the [user] affectionately licks all over \the [target]'s face!</span>", "<span class='notice'>You affectionately lick all over \the [target]'s face!</span>")
+			user.visible_message("<span class='notice'>\The [user] affectionately licks all over \the [target]'s face!</span>", "<span class='notice'>You affectionately lick all over \the [target]'s face!</span>")
 			playsound(src, 'sound/effects/attackblob.ogg', 50, 1)
 			water.use_charge(5)
 			var/mob/living/carbon/human/H = target
@@ -327,8 +327,8 @@
 	icon_state = "swordtail"
 	desc = "A glowing pink dagger normally attached to the end of a cyborg's tail. It appears to be extremely sharp."
 	force = 20 //Takes 5 hits to 100-0
-	sharp = 1
-	edge = 1
+	sharp = TRUE
+	edge = TRUE
 	throwforce = 0 //This shouldn't be thrown in the first place.
 	hitsound = 'sound/weapons/blade1.ogg'
 	attack_verb = list("slashed", "stabbed", "jabbed", "mauled", "sliced")
@@ -398,7 +398,7 @@
 			choices += M
 	choices -= src
 
-	var/mob/living/T = input(src,"Who do you wish to leap at?") as null|anything in choices
+	var/mob/living/T = tgui_input_list(src,"Who do you wish to leap at?","Target Choice", choices)
 
 	if(!T || !src || src.stat) return
 
@@ -455,7 +455,7 @@
 	options["Whiskey Soda"] = "Liqour Licker"
 	options["Grape Soda"] = "The Grapist"
 	options["Demon's Blood"] = "Vampire's Aid"
-	var/choice = input(M,"Choose your drink!") in options
+	var/choice = tgui_input_list(M, "Choose your drink!", "Drink Choice", options)
 	if(src && choice && !M.stat && in_range(M,src))
 		icontype = options[choice]
 		var/active_sound = 'sound/effects/bubbles.ogg'

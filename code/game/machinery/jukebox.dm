@@ -14,8 +14,8 @@
 	icon = 'icons/obj/jukebox.dmi'
 	icon_state = "jukebox2-nopower"
 	var/state_base = "jukebox2"
-	anchored = 1
-	density = 1
+	anchored = TRUE
+	density = TRUE
 	power_channel = EQUIP
 	use_power = USE_POWER_IDLE
 	idle_power_usage = 10
@@ -29,8 +29,7 @@
 	var/freq = 0 // Currently no effect, will return in phase II of mediamanager.
 	//VOREStation Add
 	var/loop_mode = JUKEMODE_PLAY_ONCE			// Behavior when finished playing a song
-	var/max_queue_len = 3						// How many songs are we allowed to queue up?
-	var/list/queue = list()
+	var/list/obj/item/device/juke_remote/remotes
 	//VOREStation Add End
 	var/datum/track/current_track
 
@@ -60,29 +59,24 @@
 	// If the current track isn't finished playing, let it keep going
 	if(current_track && world.time < media_start_time + current_track.duration)
 		return
-	// Otherwise time to pick a new one!
-	if(queue.len > 0)
-		current_track = queue[1]
-		queue.Cut(1, 2)  // Remove the item we just took off the list
-	else
-		// Oh... nothing in queue? Well then pick next according to our rules
-		var/list/tracks = getTracksList()
-		switch(loop_mode)
-			if(JUKEMODE_NEXT)
-				var/curTrackIndex = max(1, tracks.Find(current_track))
-				var/newTrackIndex = (curTrackIndex % tracks.len) + 1  // Loop back around if past end
-				current_track = tracks[newTrackIndex]
-			if(JUKEMODE_RANDOM)
-				var/previous_track = current_track
-				do
-					current_track = pick(tracks)
-				while(current_track == previous_track && tracks.len > 1)
-			if(JUKEMODE_REPEAT_SONG)
-				current_track = current_track
-			if(JUKEMODE_PLAY_ONCE)
-				current_track = null
-				playing = 0
-				update_icon()
+	// Oh... nothing in queue? Well then pick next according to our rules
+	var/list/tracks = getTracksList()
+	switch(loop_mode)
+		if(JUKEMODE_NEXT)
+			var/curTrackIndex = max(1, tracks.Find(current_track))
+			var/newTrackIndex = (curTrackIndex % tracks.len) + 1  // Loop back around if past end
+			current_track = tracks[newTrackIndex]
+		if(JUKEMODE_RANDOM)
+			var/previous_track = current_track
+			do
+				current_track = pick(tracks)
+			while(current_track == previous_track && tracks.len > 1)
+		if(JUKEMODE_REPEAT_SONG)
+			current_track = current_track
+		if(JUKEMODE_PLAY_ONCE)
+			current_track = null
+			playing = 0
+			update_icon()
 	updateDialog()
 	start_stop_song()
 
@@ -96,6 +90,10 @@
 		media_url = ""
 		media_start_time = 0
 	update_music()
+	//VOREStation Add
+	for(var/obj/item/device/juke_remote/remote as anything in remotes)
+		remote.update_music()
+	//VOREStation Add End
 
 /obj/machinery/media/jukebox/proc/set_hacked(var/newhacked)
 	if(hacked == newhacked)
@@ -141,7 +139,7 @@
 	update_icon()
 
 /obj/machinery/media/jukebox/update_icon()
-	overlays.Cut()
+	cut_overlays()
 	if(stat & (NOPOWER|BROKEN) || !anchored)
 		if(stat & BROKEN)
 			icon_state = "[state_base]-broken"
@@ -151,11 +149,11 @@
 	icon_state = state_base
 	if(playing)
 		if(emagged)
-			overlays += "[state_base]-emagged"
+			add_overlay("[state_base]-emagged")
 		else
-			overlays += "[state_base]-running"
+			add_overlay("[state_base]-running")
 	if (panel_open)
-		overlays += "panel_open"
+		add_overlay("panel_open")
 
 /obj/machinery/media/jukebox/interact(mob/user)
 	if(inoperable())
@@ -216,7 +214,8 @@
 			loop_mode = sanitize_inlist(newval, list(JUKEMODE_NEXT, JUKEMODE_RANDOM, JUKEMODE_REPEAT_SONG, JUKEMODE_PLAY_ONCE), loop_mode)
 			return TRUE
 		if("volume")
-			volume = clamp(params["val"], 0, 1)
+			var/newval = text2num(params["val"])
+			volume = clamp(newval, 0, 1)
 			update_music() // To broadcast volume change without restarting song
 			return TRUE
 		if("stop")
@@ -253,7 +252,7 @@
 
 /obj/machinery/media/jukebox/proc/explode()
 	walk_to(src,0)
-	src.visible_message("<span class='danger'>\the [src] blows apart!</span>", 1)
+	src.visible_message("<span class='danger'>\The [src] blows apart!</span>", 1)
 
 	explosion(src.loc, 0, 0, 1, rand(1,2), 1)
 

@@ -12,7 +12,7 @@
 	desc = "A conveyor belt."
 	plane = TURF_PLANE
 	layer = ABOVE_TURF_LAYER
-	anchored = 1
+	anchored = TRUE
 	circuit = /obj/item/weapon/circuitboard/conveyor
 	var/operating = OFF	// 1 if running forward, -1 if backwards, 0 if off
 	var/operable = 1	// true if can operate (no broken segments in this belt run)
@@ -67,8 +67,8 @@
 
 /obj/machinery/conveyor/proc/update_dir()
 	if(!(dir in cardinal)) // Diagonal. Forwards is *away* from dir, curving to the right.
-		forwards = turn(dir, 135)
-		backwards = turn(dir, 45)
+		forwards = turn(dir, 45)
+		backwards = turn(dir, 135)
 	else
 		forwards = dir
 		backwards = turn(dir, 180)
@@ -197,7 +197,7 @@
 	var/id = "" 				// must match conveyor IDs to control them
 
 	var/list/conveyors		// the list of converyors that are controlled by this switch
-	anchored = 1
+	anchored = TRUE
 	var/speed_active = FALSE // are the linked conveyors on SSfastprocess?
 
 

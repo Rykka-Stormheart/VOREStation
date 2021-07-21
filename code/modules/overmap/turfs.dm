@@ -13,7 +13,7 @@ var/global/list/map_sectors = list()
 
 /turf/unsimulated/map/edge
 	opacity = 1
-	density = 1
+	density = TRUE
 	var/map_is_to_my
 	var/turf/unsimulated/map/edge/wrap_buddy
 
@@ -91,7 +91,7 @@ var/list/moving_levels = list()
 //Proc to 'move' stars in spess
 //yes it looks ugly, but it should only fire when state actually change.
 //null direction stops movement
-proc/toggle_move_stars(zlevel, direction)
+/proc/toggle_move_stars(zlevel, direction)
 	if(!zlevel)
 		return
 

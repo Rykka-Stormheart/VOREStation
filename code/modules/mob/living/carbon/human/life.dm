@@ -846,8 +846,7 @@
 	. = 1 - . // Invert from 1 = immunity to 0 = immunity.
 
 	// Doing it this way makes multiplicative stacking not get out of hand, so two modifiers that give 0.5 protection will be combined to 0.75 in the end.
-	for(var/thing in modifiers)
-		var/datum/modifier/M = thing
+	for(var/datum/modifier/M as anything in modifiers)
 		if(!isnull(M.heat_protection))
 			. *= 1 - M.heat_protection
 
@@ -866,8 +865,7 @@
 	. = 1 - . // Invert from 1 = immunity to 0 = immunity.
 
 	// Doing it this way makes multiplicative stacking not get out of hand, so two modifiers that give 0.5 protection will be combined to 0.75 in the end.
-	for(var/thing in modifiers)
-		var/datum/modifier/M = thing
+	for(var/datum/modifier/M as anything in modifiers)
 		if(!isnull(M.cold_protection))
 			// Invert the modifier values so they align with the current working value.
 			. *= 1 - M.cold_protection
@@ -1252,7 +1250,7 @@
 				else if(no_damage)
 					health_images += image('icons/mob/screen1_health.dmi',"fullhealth")
 
-				healths_ma.overlays += health_images
+				healths_ma.add_overlay(health_images)
 				healths.appearance = healths_ma
 
 
@@ -1388,7 +1386,7 @@
 			see_in_dark = species.darksight
 			see_invisible = see_in_dark>2 ? SEE_INVISIBLE_LEVEL_ONE : see_invisible_default
 
-		var/tmp/glasses_processed = 0
+		var/glasses_processed = 0
 		var/obj/item/weapon/rig/rig = get_rig()
 		if(istype(rig) && rig.visor && !looking_elsewhere)
 			if(!rig.helmet || (head && rig.helmet == head))

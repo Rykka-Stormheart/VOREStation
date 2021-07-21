@@ -6,11 +6,12 @@
 	desc = "It opens and closes."
 	icon = 'icons/obj/doors/Doorint.dmi'
 	icon_state = "door1"
-	anchored = 1
+	anchored = TRUE
 	opacity = 1
-	density = 1
+	density = TRUE
 	can_atmos_pass = ATMOS_PASS_PROC
 	layer = DOOR_OPEN_LAYER
+	blocks_emissive = EMISSIVE_BLOCK_UNIQUE
 	var/open_layer = DOOR_OPEN_LAYER
 	var/closed_layer = DOOR_CLOSED_LAYER
 
@@ -46,7 +47,7 @@
 			playsound(src, S.attack_sound, 75, 1)
 			take_damage(damage)
 		else
-			visible_message("<span class='notice'>\The [user] bonks \the [src] harmlessly.</span>")
+			visible_message("<b>\The [user]</b> bonks \the [src] harmlessly.")
 	user.do_attack_animation(src)
 
 /obj/machinery/door/New()
@@ -75,7 +76,7 @@
 	return
 
 /obj/machinery/door/Destroy()
-	density = 0
+	density = FALSE
 	update_nearby_tiles()
 	. = ..()
 
@@ -156,7 +157,7 @@
 /obj/machinery/door/CanZASPass(turf/T, is_zone)
 	if(is_zone)
 		return !block_air_zones // Block merging unless block_air_zones = 0
-	return !density // Block airflow unless density = 0
+	return !density // Block airflow unless density = FALSE
 
 /obj/machinery/door/proc/bumpopen(mob/user as mob)
 	if(operating)	return
@@ -428,7 +429,7 @@
 	icon_state = "door0"
 	set_opacity(0)
 	sleep(3)
-	src.density = 0
+	src.density = FALSE
 	update_nearby_tiles()
 	sleep(7)
 	src.layer = open_layer
@@ -453,7 +454,7 @@
 	close_door_at = 0
 	do_animate("closing")
 	sleep(3)
-	src.density = 1
+	src.density = TRUE
 	explosion_resistance = initial(explosion_resistance)
 	src.layer = closed_layer
 	update_nearby_tiles()

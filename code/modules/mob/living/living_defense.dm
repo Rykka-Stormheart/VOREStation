@@ -225,7 +225,7 @@
 
 //Called when the mob is hit with an item in combat. Returns the blocked result
 /mob/living/proc/hit_with_weapon(obj/item/I, mob/living/user, var/effective_force, var/hit_zone)
-	visible_message("<span class='danger'>[src] has been [I.attack_verb.len? pick(I.attack_verb) : "attacked"] with [I.name] by [user]!</span>")
+	visible_message("<span class='danger'>[src] has been [LAZYLEN(I.attack_verb) ? pick(I.attack_verb) : "attacked"] with [I.name] by [user]!</span>")
 
 	if(ai_holder)
 		ai_holder.react_to_attack(user)
@@ -321,7 +321,7 @@
 				if(T)
 					src.loc = T
 					visible_message("<span class='warning'>[src] is pinned to the wall by [O]!</span>","<span class='warning'>You are pinned to the wall by [O]!</span>")
-					src.anchored = 1
+					src.anchored = TRUE
 					src.pinned += O
 
 /mob/living/proc/embed(var/obj/O, var/def_zone=null)
@@ -366,7 +366,7 @@
 /mob/living/proc/IgniteMob()
 	if(fire_stacks > 0 && !on_fire)
 		on_fire = 1
-		handle_light()
+		new/obj/effect/dummy/lighting_obj/moblight/fire(src)
 		throw_alert("fire", /obj/screen/alert/fire)
 		update_fire()
 
@@ -374,7 +374,8 @@
 	if(on_fire)
 		on_fire = 0
 		fire_stacks = 0
-		handle_light()
+		for(var/obj/effect/dummy/lighting_obj/moblight/fire/F in src)
+			qdel(F)
 		clear_alert("fire")
 		update_fire()
 

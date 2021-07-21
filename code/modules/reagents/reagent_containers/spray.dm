@@ -6,14 +6,14 @@
 	item_state = "cleaner"
 	center_of_mass = list("x" = 16,"y" = 10)
 	flags = OPENCONTAINER|NOBLUDGEON
-	matter = list("glass" = 300, DEFAULT_WALL_MATERIAL = 300)
+	matter = list(MAT_GLASS = 300, MAT_STEEL = 300)
 	slot_flags = SLOT_BELT
 	throwforce = 3
 	w_class = ITEMSIZE_SMALL
 	throw_speed = 2
 	throw_range = 10
 	amount_per_transfer_from_this = 10
-	unacidable = 1 //plastic
+	unacidable = TRUE //plastic
 	possible_transfer_amounts = list(5,10) //Set to null instead of list, if there is only one.
 	var/spray_size = 3
 	var/list/spray_sizes = list(1,3)
@@ -88,7 +88,7 @@
 	set category = "Object"
 	set src in usr
 
-	if (alert(usr, "Are you sure you want to empty that?", "Empty Bottle:", "Yes", "No") != "Yes")
+	if (tgui_alert(usr, "Are you sure you want to empty that?", "Empty Bottle:", list("Yes", "No")) != "Yes")
 		return
 	if(isturf(usr.loc))
 		to_chat(usr, "<span class='notice'>You empty \the [src] onto the floor.</span>")
@@ -232,7 +232,7 @@
 /obj/item/weapon/reagent_containers/spray/chemsprayer/hosed/update_icon()
 	..()
 
-	overlays.Cut()
+	cut_overlays()
 
 	if(!hose_overlay)
 		hose_overlay = new icon(icon, "[icon_state]+hose")

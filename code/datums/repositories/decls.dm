@@ -14,7 +14,7 @@
 //     III. Thou shalt not write a decl that relies on arguments supplied to New().
 //     IV.  Thou shalt not call Initialize() on a /decl.
 
-var/repository/decls/decls_repository = new()
+var/repository/decls/decls_repository // Initialiozed in /datum/global_init/New()
 
 /repository/decls
 	var/list/fetched_decls
@@ -67,5 +67,5 @@ var/repository/decls/decls_repository = new()
 
 /decl/Destroy()
 	SHOULD_CALL_PARENT(FALSE)
-	crash_with("Prevented attempt to delete a decl instance: [log_info_line(src)]")
+	stack_trace("Prevented attempt to delete a decl instance: [log_info_line(src)]")
 	return QDEL_HINT_LETMELIVE // Prevents decl destruction

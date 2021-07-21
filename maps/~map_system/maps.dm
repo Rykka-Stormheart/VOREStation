@@ -3,7 +3,7 @@ var/datum/map/using_map = new USING_MAP_DATUM
 var/list/all_maps = list()
 
 /hook/startup/proc/initialise_map_list()
-	for(var/type in typesof(/datum/map) - /datum/map)
+	for(var/type in subtypesof(/datum/map))
 		var/datum/map/M
 		if(type == using_map.type)
 			M = using_map
@@ -34,9 +34,10 @@ var/list/all_maps = list()
 	var/static/list/sealed_levels = list()  // Z-levels that don't allow random transit at edge
 	var/static/list/xenoarch_exempt_levels = list()	//Z-levels exempt from xenoarch finds and digsites spawning.
 	var/static/list/persist_levels = list() // Z-levels where SSpersistence should persist between rounds. Defaults to station_levels if unset.
+	var/static/list/secret_levels = list() // Z-levels that (non-admin) ghosts can't get to
+	var/static/list/hidden_levels = list() // Z-levels who's contents are hidden, but not forbidden (gateways)
 	var/static/list/empty_levels = list()   // Empty Z-levels that may be used for various things
 	var/static/list/mappable_levels = list()// List of levels where mapping or other similar devices might work fully
-	var/static/list/secret_levels = list() // Z-levels that (non-admin) ghosts can't get to
 	// End Static Lists
 
 	// Z-levels available to various consoles, such as the crew monitor. Defaults to station_levels if unset.
@@ -144,6 +145,8 @@ var/list/all_maps = list()
 		mappable_levels = station_levels.Copy()
 	if(!persist_levels?.len)
 		persist_levels = station_levels.Copy()
+	if(!mappable_levels?.len)
+		mappable_levels = station_levels.Copy()
 	if(!allowed_jobs || !allowed_jobs.len)
 		allowed_jobs = subtypesof(/datum/job)
 	if(default_skybox) //Type was specified
@@ -333,7 +336,7 @@ var/list/all_maps = list()
 		custom_skybox = new custom_skybox()
 
 /datum/map_z_level/Destroy(var/force)
-	crash_with("Attempt to delete a map_z_level instance [log_info_line(src)]")
+	stack_trace("Attempt to delete a map_z_level instance [log_info_line(src)]")
 	if(!force)
 		return QDEL_HINT_LETMELIVE // No.
 	if (using_map.zlevels["[z]"] == src)

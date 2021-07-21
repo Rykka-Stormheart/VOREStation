@@ -4,8 +4,8 @@
 	icon = 'icons/obj/library.dmi'
 	icon_state = "bigscanner"
 	var/insert_anim = "bigscanner1"
-	anchored = 1
-	density = 1
+	anchored = TRUE
+	density = TRUE
 	use_power = USE_POWER_IDLE
 	idle_power_usage = 30
 	active_power_usage = 200
@@ -220,7 +220,7 @@
 			img = image('icons/obj/bureaucracy.dmi', "paper_stamp-dots")
 		img.pixel_x = copy.offset_x[j]
 		img.pixel_y = copy.offset_y[j]
-		c.overlays += img
+		c.add_overlay(img)
 	c.updateinfolinks()
 	if(need_toner)
 		toner--

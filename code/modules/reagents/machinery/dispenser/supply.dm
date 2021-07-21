@@ -1,7 +1,7 @@
 /datum/supply_pack/chemistry_dispenser
 	name = "Reagent dispenser"
 	contains = list(
-			/obj/machinery/chemical_dispenser{anchored = 0}
+			/obj/machinery/chemical_dispenser{anchored = FALSE}
 		)
 	cost = 25
 	containertype = /obj/structure/largecrate
@@ -11,7 +11,7 @@
 /datum/supply_pack/beer_dispenser
 	name = "Booze dispenser"
 	contains = list(
-			/obj/machinery/chemical_dispenser/bar_alc{anchored = 0}
+			/obj/machinery/chemical_dispenser/bar_alc{anchored = FALSE}
 		)
 	cost = 25
 	containertype = /obj/structure/largecrate
@@ -21,7 +21,7 @@
 /datum/supply_pack/soda_dispenser
 	name = "Soda dispenser"
 	contains = list(
-			/obj/machinery/chemical_dispenser/bar_soft{anchored = 0}
+			/obj/machinery/chemical_dispenser/bar_soft{anchored = FALSE}
 		)
 	cost = 25
 	containertype = /obj/structure/largecrate
@@ -147,27 +147,23 @@
 	group = "Reagents"
 
 #define SEC_PACK(_tname, _type, _name, _cname, _cost, _access)\
-	datum/supply_pack/dispenser_cartridges{\
-		_tname {\
-			name = _name ;\
-			containername = _cname ;\
-			containertype = /obj/structure/closet/crate/secure;\
-			access = list( _access );\
-			cost = _cost ;\
-			contains = list( _type , _type );\
-			group = "Reagent Cartridges"\
-		}\
+	/datum/supply_pack/dispenser_cartridges/##_tname {\
+		name = _name ;\
+		containername = _cname ;\
+		containertype = /obj/structure/closet/crate/secure;\
+		access = list( _access );\
+		cost = _cost ;\
+		contains = list( _type , _type );\
+		group = "Reagent Cartridges"\
 	}
 #define PACK(_tname, _type, _name, _cname, _cost)\
-	datum/supply_pack/dispenser_cartridges{\
-		_tname {\
-			name = _name ;\
-			containername = _cname ;\
-			containertype = /obj/structure/closet/crate;\
-			cost = _cost ;\
-			contains = list( _type , _type );\
-			group = "Reagent Cartridges"\
-		}\
+	/datum/supply_pack/dispenser_cartridges/##_tname {\
+		name = _name ;\
+		containername = _cname ;\
+		containertype = /obj/structure/closet/crate;\
+		cost = _cost ;\
+		contains = list( _type , _type );\
+		group = "Reagent Cartridges"\
 	}
 
 // Chemistry-restricted (raw reagents excluding sugar/water)

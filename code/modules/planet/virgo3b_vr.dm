@@ -93,8 +93,7 @@ var/datum/planet/virgo3b/planet_virgo3b = null
 
 		new_color = rgb(new_r, new_g, new_b)
 
-	spawn(1)
-		update_sun_deferred(2, new_brightness, new_color)
+	update_sun_deferred(new_brightness, new_color)
 
 
 /datum/weather_holder/virgo3b
@@ -472,8 +471,7 @@ var/datum/planet/virgo3b/planet_virgo3b = null
 
 /datum/weather/virgo3b/ash_storm/process_effects()
 	..()
-	for(var/thing in living_mob_list)
-		var/mob/living/L = thing
+	for(var/mob/living/L as anything in living_mob_list)
 		if(L.z in holder.our_planet.expected_z_levels)
 			var/turf/T = get_turf(L)
 			if(!T.outdoors)
@@ -509,8 +507,7 @@ var/datum/planet/virgo3b/planet_virgo3b = null
 
 /datum/weather/virgo3b/fallout/process_effects()
 	..()
-	for(var/thing in living_mob_list)
-		var/mob/living/L = thing
+	for(var/mob/living/L as anything in living_mob_list)
 		if(L.z in holder.our_planet.expected_z_levels)
 			irradiate_nearby_turf(L)
 			var/turf/T = get_turf(L)

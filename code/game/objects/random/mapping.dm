@@ -464,7 +464,7 @@
 
 /obj/random/multiple/ore_pile/item_to_spawn()
 	return pick(
-			prob(10);list(
+			/*prob(10);list(
 				/obj/item/weapon/ore/bauxite,
 				/obj/item/weapon/ore/bauxite,
 				/obj/item/weapon/ore/bauxite,
@@ -475,7 +475,7 @@
 				/obj/item/weapon/ore/bauxite,
 				/obj/item/weapon/ore/bauxite,
 				/obj/item/weapon/ore/bauxite
-			),
+			),*/
 			prob(10);list(
 				/obj/item/weapon/ore/coal,
 				/obj/item/weapon/ore/coal,
@@ -488,7 +488,7 @@
 				/obj/item/weapon/ore/coal,
 				/obj/item/weapon/ore/coal
 			),
-			prob(10);list(
+			/*prob(10);list(
 				/obj/item/weapon/ore/copper,
 				/obj/item/weapon/ore/copper,
 				/obj/item/weapon/ore/copper,
@@ -499,7 +499,7 @@
 				/obj/item/weapon/ore/copper,
 				/obj/item/weapon/ore/copper,
 				/obj/item/weapon/ore/copper
-			),
+			),*/
 			prob(3);list(
 				/obj/item/weapon/ore/diamond,
 				/obj/item/weapon/ore/diamond,
@@ -598,11 +598,11 @@
 			prob(2);list(
 				/obj/item/weapon/ore/verdantium,
 				/obj/item/weapon/ore/verdantium
-			),
+			),/*
 			prob(2);list(
 				/obj/item/weapon/ore/void_opal,
 				/obj/item/weapon/ore/void_opal
-			),
+			),*/
 		)
 
 /obj/random/multiple/corp_crate
@@ -1345,6 +1345,28 @@
 				/obj/random/multiple/large_corp_crate
 			)
 		)
+//VOREStation Add - Random good, no guns gooder
+/obj/random/multiple/random_size_crate/no_weapons
+	name = "random size corporate crate (no weapons)"
+	desc = "A random size corporate crate with thematic contents: prefers small crates."
+	icon = 'icons/obj/storage.dmi'
+	icon_state = "largermetal"
+	spawn_nothing_percentage = 50
+
+/obj/random/multiple/random_size_crate/no_weapons/item_to_spawn()
+	return pick(
+			prob(85);list(
+				/obj/random/multiple/corp_crate/no_weapons
+			),
+			prob(15);list(
+				/obj/random/multiple/large_corp_crate/no_weapons
+			)
+		)
+
+/obj/random/multiple/random_size_crate/no_weapons/nofail
+	spawn_nothing_percentage = 0
+
+//VOREStation Add End
 /*
  * Turf swappers.
  */

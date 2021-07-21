@@ -67,7 +67,7 @@
 		to_chat(src, "<span class='alium'>Their plasma vessel is missing.</span>")
 		return
 
-	var/amount = input("Amount:", "Transfer Plasma to [M]") as num
+	var/amount = input(usr, "Amount:", "Transfer Plasma to [M]") as num
 	if (amount)
 		amount = abs(round(amount))
 		if(check_alien_ability(amount,0,O_PLASMA))
@@ -79,7 +79,7 @@
 // Queen verbs.
 /mob/living/carbon/human/proc/lay_egg()
 
-	set name = "Lay Egg (75)"
+	set name = "Lay Egg (200)"
 	set desc = "Lay an egg to produce huggers to impregnate prey with."
 	set category = "Abilities"
 
@@ -88,13 +88,13 @@
 		verbs -= /mob/living/carbon/human/proc/lay_egg
 		return
 
-	if(locate(/obj/effect/alien/egg) in get_turf(src))
+	if(locate(/obj/structure/alien/egg) in get_turf(src))
 		to_chat(src, "There's already an egg here.")
 		return
 
-	if(check_alien_ability(75,1,O_EGG))
+	if(check_alien_ability(200,1,O_EGG))
 		visible_message("<span class='alium'><B>[src] has laid an egg!</B></span>")
-		new /obj/effect/alien/egg(loc)
+		new /obj/structure/alien/egg(loc)
 
 	return
 
@@ -144,7 +144,7 @@
 		P.firer = src
 		P.old_style_target(A)
 		P.fire()
-		playsound(src, 'sound/weapons/pierce.ogg', 25, 0)
+		playsound(src, 'sound/weapons/alien_spitacid.ogg', 25, 0)
 
 /mob/living/carbon/human/proc/corrosive_acid(O as obj|turf in oview(1)) //If they right click to corrode, an error will flash if its an invalid target./N
 	set name = "Corrosive Acid (200)"
@@ -231,7 +231,7 @@
 	set desc = "Secrete tough malleable resin."
 	set category = "Abilities"
 
-	var/choice = input("Choose what you wish to shape.","Resin building") as null|anything in list("resin door","resin wall","resin membrane","resin nest","resin blob") //would do it through typesof but then the player choice would have the type path and we don't want the internal workings to be exposed ICly - Urist
+	var/choice = tgui_input_list(usr, "Choose what you wish to shape.","Resin building", list("resin door","resin wall","resin membrane","resin nest","resin blob")) //would do it through typesof but then the player choice would have the type path and we don't want the internal workings to be exposed ICly - Urist
 	if(!choice)
 		return
 
@@ -277,7 +277,7 @@
 			choices += M
 	choices -= src
 
-	var/mob/living/T = input(src,"Who do you wish to leap at?") as null|anything in choices
+	var/mob/living/T = tgui_input_list(src, "Who do you wish to leap at?", "Target Choice", choices)
 
 	if(!T || !src || src.stat) return
 
@@ -329,7 +329,7 @@
 
 /mob/living/carbon/human/proc/gut()
 	set category = "Abilities"
-	set name = "Gut"
+	set name = "Slaughter"
 	set desc = "While grabbing someone aggressively, rip their guts out or tear them apart."
 
 	if(last_special > world.time)
@@ -345,7 +345,7 @@
 		return
 
 	if(G.state < GRAB_AGGRESSIVE)
-		to_chat(src, "<span class='danger'>You must have an aggressive grab to gut your prey!</span>")
+		to_chat(src, "<span class='danger'>You must have an aggressive grab to slaughter your prey!</span>")
 		return
 
 	last_special = world.time + 50

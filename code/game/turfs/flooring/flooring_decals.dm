@@ -7,7 +7,7 @@ var/list/floor_decals = list()
 	name = "floor decal"
 	icon = 'icons/turf/flooring/decals_vr.dmi' // VOREStation Edit
 	plane = DECAL_PLANE
-	layer = MAPPER_DECAL_LAYER
+	layer = DECAL_LAYER
 	var/supplied_dir
 
 /obj/effect/floor_decal/New(var/newloc, var/newdir, var/newcolour)
@@ -1180,6 +1180,8 @@ var/list/floor_decals = list()
 /obj/effect/floor_decal/steeldecal/steel_decals_central7
 	icon_state = "steel_decals_central7"
 
+/obj/effect/floor_decal/steeldecal/monofloor //VOREStation Add
+	icon_state = "monofloor" //VOREStation Add
 
 /obj/effect/floor_decal/techfloor
 	name = "techfloor edges"
